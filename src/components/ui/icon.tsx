@@ -1,0 +1,91 @@
+import {
+  Activity,
+  Atom,
+  Beaker,
+  Brain,
+  Building2,
+  CalendarDays,
+  CheckCircle2,
+  Compass,
+  Factory,
+  FlaskConical,
+  Globe2,
+  GraduationCap,
+  Handshake,
+  HeartPulse,
+  Instagram,
+  Leaf,
+  Lightbulb,
+  Link2,
+  Linkedin,
+  MapPin,
+  Microscope,
+  Network,
+  Package,
+  Pill,
+  Ruler,
+  Send,
+  ShieldCheck,
+  Sparkles,
+  Stethoscope,
+  Store,
+  Target,
+  TrendingUp,
+  Users,
+  Wind,
+  Youtube,
+  type LucideIcon,
+} from 'lucide-react';
+
+import type { IconName } from '@/types/content';
+
+const REGISTRY: Record<IconName, LucideIcon> = {
+  atom: Atom,
+  beaker: Beaker,
+  brain: Brain,
+  building: Building2,
+  calendar: CalendarDays,
+  chart: TrendingUp,
+  check: CheckCircle2,
+  compass: Compass,
+  factory: Factory,
+  flask: FlaskConical,
+  globe: Globe2,
+  graduation: GraduationCap,
+  handshake: Handshake,
+  heart: HeartPulse,
+  leaf: Leaf,
+  lightbulb: Lightbulb,
+  link: Link2,
+  location: MapPin,
+  microscope: Microscope,
+  network: Network,
+  package: Package,
+  pill: Pill,
+  ruler: Ruler,
+  shield: ShieldCheck,
+  sparkles: Sparkles,
+  stethoscope: Stethoscope,
+  store: Store,
+  target: Target,
+  trending: Activity,
+  users: Users,
+  wind: Wind,
+  instagram: Instagram,
+  linkedin: Linkedin,
+  telegram: Send,
+  youtube: Youtube,
+};
+
+export function Icon({
+  name,
+  className,
+  strokeWidth = 1.6,
+}: {
+  name: IconName;
+  className?: string;
+  strokeWidth?: number;
+}) {
+  const Cmp = REGISTRY[name] ?? Sparkles;
+  return <Cmp className={className} strokeWidth={strokeWidth} aria-hidden="true" />;
+}

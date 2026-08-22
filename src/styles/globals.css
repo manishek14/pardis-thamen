@@ -1,0 +1,288 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------------------------------------------------------
+   Typeface — Vazirmatn (SIL OFL 1.1), self-hosted variable font.
+   Dana was not supplied with the brief, so the recommended open-source
+   Persian fallback is used instead. Swap the two @font-face blocks for Dana
+   files if/when they are licensed and provided.
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn[wght].woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   Design tokens — پردیس علم و فناوری سلامت ثامن
+   Brand accent: #6B61F4  ->  hsl(245 87% 66%)
+   Light theme is the ONLY default. Dark theme is opt-in via `.dark` on <html>.
+   ========================================================================== */
+
+@layer base {
+  :root {
+    /* --- brand ramp ------------------------------------------------------- */
+    --brand-50: 245 100% 97.5%;
+    --brand-100: 245 100% 95%;
+    --brand-200: 245 96% 90%;
+    --brand-300: 245 93% 83%;
+    --brand-400: 245 90% 74%;
+    --brand-500: 245 87% 66%; /* #6B61F4 */
+    --brand-600: 245 63% 55%;
+    --brand-700: 246 52% 45%;
+    --brand-800: 247 45% 35%;
+    --brand-900: 248 42% 25%;
+
+    /* --- neutral surfaces ------------------------------------------------- */
+    --background: 0 0% 100%;
+    --surface: 0 0% 100%;
+    --surface-muted: 240 25% 98%;
+    --surface-raised: 0 0% 100%;
+
+    /* --- text ------------------------------------------------------------- */
+    --ink: 222 33% 14%;
+    --ink-soft: 222 16% 38%;
+    --ink-faint: 222 12% 55%;
+    --foreground: var(--ink);
+    --muted: 240 25% 97%;
+    --muted-foreground: var(--ink-soft);
+
+    /* --- lines & states --------------------------------------------------- */
+    --border: 234 24% 91%;
+    --input: 234 24% 88%;
+    --ring: 245 87% 66%;
+    --accent: 245 87% 66%;
+    --accent-foreground: 0 0% 100%;
+    --success: 157 55% 38%;
+
+    /* --- radii ------------------------------------------------------------ */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.25rem;
+    --radius-2xl: 1.5rem;
+    --radius-3xl: 2rem;
+
+    /* --- elevation -------------------------------------------------------- */
+    --shadow-xs: 0 1px 2px 0 hsl(240 30% 20% / 0.05);
+    --shadow-sm: 0 1px 3px 0 hsl(240 30% 20% / 0.06), 0 1px 2px -1px hsl(240 30% 20% / 0.05);
+    --shadow-md: 0 6px 18px -6px hsl(240 30% 20% / 0.1), 0 2px 6px -2px hsl(240 30% 20% / 0.06);
+    --shadow-lg: 0 18px 40px -18px hsl(243 40% 24% / 0.16), 0 4px 12px -6px hsl(243 30% 24% / 0.07);
+    --shadow-xl: 0 34px 70px -30px hsl(243 45% 22% / 0.22), 0 8px 20px -10px hsl(243 30% 22% / 0.08);
+    --shadow-brand: 0 14px 32px -14px hsl(245 87% 55% / 0.45);
+
+    /* --- motion ----------------------------------------------------------- */
+    --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* --- layout ----------------------------------------------------------- */
+    --header-h: 4.5rem;
+
+    /* --- type ------------------------------------------------------------- */
+    --font-sans: 'Vazirmatn', 'Segoe UI', system-ui, sans-serif;
+  }
+
+  .dark {
+    --background: 240 22% 7%;
+    --surface: 240 20% 10%;
+    --surface-muted: 240 18% 12%;
+    --surface-raised: 240 18% 13%;
+
+    --ink: 240 30% 97%;
+    --ink-soft: 240 12% 74%;
+    --ink-faint: 240 10% 60%;
+    --foreground: var(--ink);
+    --muted: 240 16% 15%;
+    --muted-foreground: var(--ink-soft);
+
+    --border: 240 14% 21%;
+    --input: 240 14% 24%;
+    --ring: 245 90% 74%;
+    --accent: 245 90% 72%;
+    --accent-foreground: 240 40% 10%;
+    --success: 157 45% 52%;
+
+    --brand-50: 246 30% 16%;
+    --brand-100: 246 32% 20%;
+    --brand-200: 246 38% 27%;
+
+    --shadow-xs: 0 1px 2px 0 hsl(240 60% 2% / 0.5);
+    --shadow-sm: 0 1px 3px 0 hsl(240 60% 2% / 0.5);
+    --shadow-md: 0 6px 18px -6px hsl(240 60% 2% / 0.6);
+    --shadow-lg: 0 18px 40px -18px hsl(240 60% 2% / 0.7);
+    --shadow-xl: 0 34px 70px -30px hsl(240 60% 2% / 0.8);
+    --shadow-brand: 0 14px 32px -14px hsl(245 87% 40% / 0.5);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 1.5rem);
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-background text-ink antialiased;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    /* Vazirmatn's `ss01` swaps Latin digits for Persian ones. It must stay OFF
+       globally, otherwise English and Arabic locales — and any Latin numeral
+       such as ISO 13485 — would silently render with Persian digits. Persian
+       numerals come from the fa dictionary and `toLocaleDigits()` instead. */
+    font-feature-settings: normal;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Double-safety: prevent any child from forcing horizontal overflow */
+  main {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  /* Persian typography tuning: taller lines, softer tracking, no synthetic bold */
+  [dir='rtl'] {
+    line-height: 1.9;
+    letter-spacing: 0;
+  }
+
+  [dir='rtl'] h1,
+  [dir='rtl'] h2,
+  [dir='rtl'] h3,
+  [dir='rtl'] h4 {
+    letter-spacing: 0;
+    line-height: 1.45;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-bold text-balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Latin/Arabic numerals stay legible and non-italic inside Persian copy */
+  .nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' on;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  ::selection {
+    background: hsl(var(--brand-500) / 0.2);
+    color: hsl(var(--ink));
+  }
+
+  /* Never let a stray element break the RTL page horizontally */
+  img,
+  svg,
+  video {
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  .section {
+    @apply py-16 md:py-24 lg:py-28;
+  }
+
+  .section-tight {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-label font-semibold text-brand-600 dark:text-brand-300;
+  }
+
+  .card-surface {
+    @apply rounded-2xl border border-border bg-surface shadow-sm;
+  }
+
+  .hairline-grid {
+    background-image: linear-gradient(to right, hsl(var(--border) / 0.55) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.55) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .brand-wash {
+    background:
+      radial-gradient(60% 55% at 88% 8%, hsl(var(--brand-500) / 0.1), transparent 70%),
+      radial-gradient(45% 45% at 6% 92%, hsl(var(--brand-400) / 0.08), transparent 70%);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Directional flip for chevrons/arrows — the icon itself is never mirrored by CSS hacks */
+  .icon-dir {
+    @apply transition-transform duration-300;
+  }
+
+  [dir='rtl'] .flip-x {
+    transform: scaleX(-1);
+  }
+
+  .mask-fade-x {
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* --- Scroll reveal (progressive enhancement, CSS-driven) ------------------ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s var(--ease-smooth),
+    transform 0.7s var(--ease-smooth);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-reveal='in'] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
